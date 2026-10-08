@@ -1,4 +1,5 @@
 import { Coffee, Heart, Sparkles, Utensils } from "lucide-react";
+import { responsiveImageProps } from "../utils/responsiveImage";
 
 const experiences = [
   ["Fresh Food", Utensils], ["Cozy Café", Coffee], ["Great Moments", Heart], ["Made With Care", Sparkles],
@@ -8,7 +9,7 @@ function About() {
   return (
     <section className="section section-about" id="about">
       <div className="container about-layout">
-        <div className="about-photo"><img src="/images/cAFEiMAGE7.webp" alt="Inside the N Café dining area" loading="lazy" /><span>Make yourself at home</span></div>
+        <div className="about-photo"><img src="/images/cAFEiMAGE7.webp" {...responsiveImageProps("/images/cAFEiMAGE7.webp", "(max-width: 760px) 100vw, 50vw")} alt="Inside the N Café dining area" loading="lazy" decoding="async" /><span>Make yourself at home</span></div>
         <div className="about-copy">
           <p className="eyebrow">The N Café experience</p>
           <h2>Good things,<br /><em>shared.</em></h2>

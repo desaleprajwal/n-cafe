@@ -4,9 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Find N Café in Loni Budruk, Shirdi for freshly made favourites, refreshing drinks and cosy café moments." />
-    <meta name="theme-color" content="#0b0d0f" />
-    <title>N Café | Good Food. Great Moments.</title>
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("n-cafe-theme");
+        document.documentElement.dataset.theme = savedTheme === "light" || savedTheme === "dark"
+          ? savedTheme
+          : window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      } catch {
+        document.documentElement.dataset.theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+    </script>
+    <meta name="description" content="Visit N Café in Loni Budruk, Shirdi for delicious burgers, sandwiches, pasta, fries, Chinese, combos and more. Explore the menu and order via WhatsApp." />
+    <meta name="theme-color" content="#070a0d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="N Café | Loni Budruk, Shirdi" />
+    <meta property="og:description" content="Good Food. Great Moments. Explore the N Café menu and find us in Loni Budruk, Shirdi." />
+    <meta property="og:image" content="/images/CafeImage10.webp" />
+    <meta property="og:image:alt" content="Food served at N Café" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>N Café | Café &amp; Fast Food in Loni Budruk, Shirdi</title>
   </head>
   <body>
     <div id="root"></div>

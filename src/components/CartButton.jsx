@@ -1,8 +1,9 @@
 import { ShoppingCart } from "lucide-react";
-import { useOrder } from "../context/useOrder";
+import { useOrder, useOrderActions } from "../context/useOrder";
 
 function CartButton() {
-  const { itemCount, setIsCartOpen } = useOrder();
+  const { itemCount } = useOrder();
+  const { setIsCartOpen } = useOrderActions();
 
   return (
     <button className="nav-cart" type="button" onClick={() => setIsCartOpen(true)} aria-label={`Open cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`}>

@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { menuItems } from "../data/menu";
 import { menuImages } from "../data/menuImages";
-import { OrderContext } from "./OrderContext";
+import { OrderActionsContext, OrderContext } from "./OrderContext";
 
-const CART_KEY = "ncafe-cart-v1";
+const CART_KEY = "ncafe_cart";
+const LEGACY_CART_KEY = "ncafe-cart-v1";
 
 function readCart() {
   try {
-    const saved = JSON.parse(window.localStorage.getItem(CART_KEY) || "[]");
+    const storedCart = window.localStorage.getItem(CART_KEY) ?? window.localStorage.getItem(LEGACY_CART_KEY);
+    const saved = JSON.parse(storedCart || "[]");
     if (!Array.isArray(saved)) return [];
     return saved.flatMap((savedItem) => {
       const item = menuItems.find((entry) => entry.name === savedItem.name && entry.category === savedItem.category);
@@ -29,7 +31,9 @@ export function OrderProvider({ children }) {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(CART_KEY, JSON.stringify(cart.map(({ name, category, quantity }) => ({ name, category, quantity }))));
+      if (cart.length) window.localStorage.setItem(CART_KEY, JSON.stringify(cart.map(({ name, category, quantity }) => ({ name, category, quantity }))));
+      else window.localStorage.removeItem(CART_KEY);
+      window.localStorage.removeItem(LEGACY_CART_KEY);
     } catch {
       // Keep the in-memory cart usable when storage is unavailable.
     }
@@ -60,13 +64,23 @@ export function OrderProvider({ children }) {
     setCart((current) => current.filter((item) => item.name !== name));
   }, []);
 
+  const clearCart = useCallback(() => {
+    setCart([]);
+    try {
+      window.localStorage.removeItem(CART_KEY);
+      window.localStorage.removeItem(LEGACY_CART_KEY);
+    } catch {
+      // The state still clears when browser storage is unavailable.
+    }
+  }, []);
+
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
+  const actions = useMemo(() => ({ setIsCartOpen, addItem, setQuantity, removeItem, clearCart }), [addItem, setQuantity, removeItem, clearCart]);
   const value = useMemo(() => ({
-    cart, itemCount, subtotal, isCartOpen, setIsCartOpen, toast,
-    addItem, setQuantity, removeItem,
-  }), [cart, itemCount, subtotal, isCartOpen, toast, addItem, setQuantity, removeItem]);
+    cart, itemCount, subtotal, isCartOpen, toast,
+  }), [cart, itemCount, subtotal, isCartOpen, toast]);
 
-  return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;
+  return <OrderActionsContext.Provider value={actions}><OrderContext.Provider value={value}>{children}</OrderContext.Provider></OrderActionsContext.Provider>;
 }

@@ -1,11 +1,6 @@
-import { ArrowUpRight, Phone } from "lucide-react";
-
-const combos = [
-  { name: "Combo 1", price: 299, items: ["8” Pizza", "Fried Rice", "Waffle", "Coke"], image: "/images/CafeImage10.webp" },
-  { name: "Combo 2", price: 199, items: ["Veg Grilled Sandwich", "Veg Burger", "Waffle", "Coke"], image: "/images/CafeImage9.webp" },
-  { name: "Combo 3", price: 399, items: ["Paneer Chilly", "8” Pizza N’ Cafe Special", "Waffle", "2 Coke"], image: "/images/CafeImage2.webp" },
-  { name: "Combo 4", price: 149, items: ["Noodles", "French Fries", "Coke"], image: "/images/CafeImage6.webp" },
-];
+import { ArrowUpRight, MessageCircle, Phone } from "lucide-react";
+import { comboOffers } from "../data/combos";
+import { responsiveImageProps } from "../utils/responsiveImage";
 
 function ComboOffers() {
   return (
@@ -16,16 +11,19 @@ function ComboOffers() {
           <p className="section-lede">A little bit of everything, brought together for the table.</p>
         </div>
         <div className="combo-grid">
-          {combos.map((combo, index) => (
+          {comboOffers.map((combo, index) => (
             <article className="combo-item" key={combo.name}>
               <a className="combo-photo" href="tel:+917038233603" aria-label={`Call to order ${combo.name}`}>
-                <img src={combo.image} alt={`${combo.name} food selection`} loading="lazy" />
+                <img src={combo.image} {...responsiveImageProps(combo.image, "(max-width: 760px) 100vw, 46vw")} alt={`${combo.name} food selection`} loading="lazy" decoding="async" />
                 <span className="combo-index">0{index + 1}</span>
               </a>
               <div className="combo-info">
                 <div className="combo-title"><h3>{combo.name}</h3><span className="price">₹{combo.price}</span></div>
                 <p className="combo-includes">{combo.items.join(" · ")}</p>
-                <a className="text-link" href="tel:+917038233603"><Phone size={15} /> Call to order <ArrowUpRight size={15} /></a>
+                <div className="combo-actions">
+                  <a className="text-link" href={`https://wa.me/917038233603?text=${encodeURIComponent(`Hello N Café, I’d like to order ${combo.name} for ₹${combo.price}.`)}`} target="_blank" rel="noreferrer"><MessageCircle size={15} /> Order this Combo <ArrowUpRight size={15} /></a>
+                  <a className="combo-call-link" href="tel:+917038233603"><Phone size={14} /> Call instead</a>
+                </div>
               </div>
             </article>
           ))}

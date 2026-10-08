@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
-import { useOrder } from "../context/useOrder";
+import { useOrderActions } from "../context/useOrder";
 
 function AddToCartControl({ item, compact = false }) {
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useOrder();
+  const { addItem } = useOrderActions();
 
   return (
     <div className={`add-control${compact ? " is-compact" : ""}`}>

@@ -1,13 +1,16 @@
-import { MapPin, MessageCircle, Phone } from "lucide-react";
+import { MessageCircle, Phone, ShoppingCart } from "lucide-react";
+import { useOrder, useOrderActions } from "../context/useOrder";
 
-const actions = [
-  ["Call", "tel:+917038233603", Phone],
-  ["WhatsApp", "https://wa.me/917038233603", MessageCircle],
-  ["Directions", "https://maps.app.goo.gl/CXctajm7NdXU1BSi9", MapPin],
-];
+const actions = [["Call", "tel:+917038233603", Phone], ["WhatsApp", "https://wa.me/917038233603", MessageCircle]];
 
 function MobileActions() {
-  return <nav className="mobile-actions" aria-label="Quick contact actions">{actions.map(([label, href, Icon]) => <a key={label} href={href} {...(href.startsWith("https") ? { target: "_blank", rel: "noreferrer" } : {})}><Icon size={17} aria-hidden="true" /><span>{label}</span></a>)}</nav>;
+  const { itemCount } = useOrder();
+  const { setIsCartOpen } = useOrderActions();
+  return <nav className="mobile-actions" aria-label="Quick contact actions">
+    <a href={actions[0][1]}><Phone size={17} aria-hidden="true" /><span>Call</span></a>
+    <button type="button" aria-label={`Open cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`} onClick={() => setIsCartOpen(true)}><ShoppingCart size={17} aria-hidden="true" /><span>Cart</span><span className="mobile-cart-count">{itemCount}</span></button>
+    <a href={actions[1][1]} target="_blank" rel="noreferrer"><MessageCircle size={17} aria-hidden="true" /><span>WhatsApp</span></a>
+  </nav>;
 }
 
 export default MobileActions;
