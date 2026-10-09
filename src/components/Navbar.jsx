@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu as MenuIcon, MessageCircle, Moon, Phone, Sun, X } from "lucide-react";
 import CartButton from "./CartButton";
 import OpeningStatus from "./OpeningStatus";
+import Logo from "./Logo";
 import { business } from "../config/business";
 
 const navLinks = [
@@ -74,10 +75,7 @@ function Navbar({ cafeStatus }) {
   return (
     <header className="site-header">
       <nav className="container nav-bar" aria-label="Main navigation">
-        <a className="brand" href="#home" onClick={(event) => navigateTo(event, "#home")} aria-label="N Café home">
-          <span className="brand-mark">N</span>
-          <span className="brand-copy"><strong>N Café</strong><small>FOOD · CAFE · MOMENTS</small></span>
-        </a>
+        <Logo onClick={(event) => navigateTo(event, "#home")} />
         <div className="desktop-nav">
           {navLinks.map(([label, href]) => <a key={href} href={href} className={activeSection === href.slice(1) ? "is-active" : undefined} aria-current={activeSection === href.slice(1) ? "location" : undefined} onClick={(event) => navigateTo(event, href)}>{label}</a>)}
         </div>

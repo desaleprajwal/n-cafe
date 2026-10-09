@@ -1,5 +1,6 @@
 import { ArrowUpRight, Camera, MapPin, MessageCircle, Phone } from "lucide-react";
 import { business } from "../config/business";
+import Logo from "./Logo";
 
 const links = [["Home", "#home"], ["Menu", "#menu"], ["Combos", "#combos"], ["About", "#about"], ["Gallery", "#gallery"], ["Contact", "#contact"]];
 
@@ -9,7 +10,7 @@ function Footer() {
       <div className="container">
         <div className="footer-main">
           <div className="footer-intro">
-            <a className="brand footer-brand" href="#home" aria-label="N Café home"><span className="brand-mark">N</span><span className="brand-copy"><strong>{business.name}</strong><small>FOOD · CAFE · MOMENTS</small></span></a>
+            <Logo className="footer-brand" />
             <p>Delicious food and cozy moments, shared around the table.</p>
           </div>
           <div className="footer-links"><h2>Explore</h2>{links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</div>
